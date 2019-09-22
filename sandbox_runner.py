@@ -11,15 +11,15 @@ def version():
 
 
 def usage():
-    print("Usage: python3 save_run.py [args] -- [commands]")
+    print("Usage: python3 %s [args] -- [commands]" % sys.argv[0].split('/')[-1])
 
 
 def main(argv=()):
-    delimeter = argv.index('--')
-    command = argv[delimeter + 1:]
+    delimiter = argv.index('--')
+    command = argv[delimiter + 1:]
     try:
-        opts, args = getopt.getopt(argv[:delimeter],
-                                   'hvVcfi:o:l:e:u:g:s:',
+        opts, args = getopt.getopt(argv[:delimiter],
+                                   'hVcfi:o:l:e:v:u:g:s:',
                                    ['help',
                                     'version',
                                     'max-cpu-time=',
@@ -31,6 +31,7 @@ def main(argv=()):
                                     'max-process=',
                                     'input-file=',
                                     'output-file=',
+                                    'err-file=',
                                     'log-file=',
                                     'file-io',
                                     'env=',

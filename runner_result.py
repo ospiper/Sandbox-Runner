@@ -1,4 +1,4 @@
-SUCCESS = 0,
+SUCCESS = 0
 INVALID_CONFIG = -1
 FORK_FAILED = -2
 PTHREAD_FAILED = -3
@@ -9,7 +9,6 @@ SETRLIMIT_FAILED = -7
 DUP2_FAILED = -8
 SETUID_FAILED = -9
 EXECVE_FAILED = -10
-SPJ_ERROR = -11
 
 RESULT_WRONG_ANSWER = -1
 RESULT_CPU_TIME_LIMIT_EXCEEDED = 1
@@ -23,19 +22,10 @@ class RunnerResult:
     cpu_time = None
     real_time = None
     memory = None
-    signal = None
-    exit_code = None
-    error = None
-    result = None
-
-    def __init__(self, result, cpu_time=None, real_time=None, memory=None, signal=None, exit_code=None, error=None):
-        self.result = result
-        self.cpu_time = cpu_time
-        self.real_time = real_time
-        self.memory = memory
-        self.signal = signal
-        self.exit_code = exit_code
-        self.error = error
+    signal = 0
+    exit_code = 0
+    error = 0
+    result = SUCCESS
 
     def to_dict(self):
         return {

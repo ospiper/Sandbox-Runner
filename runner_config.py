@@ -73,22 +73,13 @@ class RunnerConfig:
     max_process = UNLIMITED
     input_file = None
     output_file = None
+    err_file = None
     log_file = None
     file_io = False
-    env = []
+    env = {}
     uid = None
     gid = None
     seccomp_rule = None
-
-    def get_rlimit(self):
-        return {
-            'max_cpu_time': self.max_cpu_time,
-            'max_real_time': self.max_real_time,
-            'max_memory': self.max_memory,
-            'max_stack': self.max_stack,
-            'max_output_size': self.max_output_size,
-            'max_process': self.max_process
-        }
 
     def to_dict(self):
         return {
@@ -101,6 +92,7 @@ class RunnerConfig:
             'max_process': self.max_process,
             'input_file': self.input_file,
             'output_file': self.output_file,
+            'err_file': self.err_file,
             'log_file': self.log_file,
             'file_io': self.file_io,
             'env': self.env,
@@ -131,12 +123,17 @@ class RunnerConfig:
                 ret.input_file = arg
             elif opt in ('--output-file', '-o'):
                 ret.output_file = arg
+            elif opt in ('--err-file', '-e'):
+                ret.err_file = arg
             elif opt in ('--log-file', '-l'):
                 ret.log_file = arg
             elif opt in ('--file-io', '-f'):
                 ret.file_io = True
-            elif opt in ('--env', '-e'):
-                ret.env.append(arg)
+            elif opt in ('--env', '-v'):
+                env = arg.split('=')
+                if len(arg) != 2:
+                    raise ArgumentError('Environment variables must be like {Key}={Value}')
+                ret.env[arg[0]] = arg[1]
             elif opt in ('--uid', '-u'):
                 ret.uid = parse_int(opt, arg)
             elif opt in ('--gid', '-g'):
@@ -148,12 +145,4 @@ class RunnerConfig:
         if ret.input_file is not None:
             if not os.path.exists(ret.input_file):
                 raise ArgumentError('Input file %s does not exist' % ret.input_file)
-        if ret.uid is None:
-            raise ArgumentError('Uid is not specified')
-        if ret.uid < 0:
-            raise ArgumentError('Invalid uid')
-        if ret.gid is None:
-            raise ArgumentError('Gid is not specified')
-        if ret.gid < 0:
-            raise ArgumentError('Invalid gid')
         return ret
