@@ -1,13 +1,18 @@
 import os, sys, getopt
 import json
+import logging
+
 from print_error import error
 from runner_errors import *
 from runner_config import RunnerConfig, UNLIMITED
 from runner import run
 
 
+logging.basicConfig(level=logging.DEBUG)
+
+
 def version():
-    print('Sandbox Runner v0.0.1')
+    return 'Sandbox Runner v0.0.1'
 
 
 def usage():
@@ -15,6 +20,8 @@ def usage():
 
 
 def main(argv=()):
+    logger = logging.getLogger(__name__)
+    logger.info(version())
     delimiter = argv.index('--')
     command = argv[delimiter + 1:]
     try:
@@ -39,27 +46,27 @@ def main(argv=()):
                                     'gid=',
                                     'seccomp-rule='])
     except getopt.GetoptError as err:
-        error(str(err))
+        logger.error(str(err))
         sys.exit(2)
     try:
         if len(opts) == 0:
             raise ArgumentError()
         if opts[0][0] in ('-h', '--help'):
-            version()
+            print(version())
             usage()
             sys.exit(0)
         if opts[0][0] in ('-v', '-V', '--version'):
-            version()
+            print(version())
             sys.exit(0)
     except RunnerException as err:
-        error(str(err))
+        logger.error(str(err))
         sys.exit(2)
     try:
         config = RunnerConfig.build(opts)
     except ArgumentError as err:
-        error(str(err))
+        logger.error(str(err))
         sys.exit(999)
-    print(json.dumps(config.to_dict(), indent=2))
+    # print(json.dumps(config.to_dict(), indent=2))
     run(config, command)
 
 
