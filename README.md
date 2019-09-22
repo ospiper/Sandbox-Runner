@@ -31,6 +31,8 @@ python3 sandbox_runner.py \
     -- \
     /usr/bin/python3 /path/to/script
 ```
+- **Caution: `command` must be absolute path**
+
 |Arg (--arg)|Abbr (-a)|Required|Type|Desc|
 |---|-----|--------|----|----|
 |version|V|N|none|Display version info|
