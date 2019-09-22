@@ -5,6 +5,13 @@
 - libseccomp-dev
 - libseccomp bindings for Python3 (Refer to [libseccomp](https://github.com/seccomp/libseccomp/blob/master/src/python/))
 
+Install python3 bindings
+- `configure` and `make` libseccomp from official tarball (do not `make install`)
+- `cd src/python`
+- `python3 setup.py build`
+- `cd build`
+- copy compiled `.so` file to `/path/to/Sandbox-Runner`
+
 ## Usage
 ```bash
 python3 sandbox_runner.py [args] -- commands
