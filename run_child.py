@@ -21,7 +21,7 @@ def run_child(config, command):
             resource.setrlimit(resource.RLIMIT_FSIZE, (config.max_output_size, config.max_output_size))
         if config.max_process > 0:
             resource.setrlimit(resource.RLIMIT_NPROC, (config.max_process, config.max_process))
-        if config.max_memory > 0:
+        if config.max_memory > 0 and not config.memory_check_only:
             resource.setrlimit(resource.RLIMIT_AS, (config.max_memory, config.max_memory))
         if config.max_cpu_time > 0:
             # Overtime resource limit
@@ -63,25 +63,5 @@ def run_child(config, command):
         load_seccomp_rule(config, command)
     except OSError as osErr:
         error(str(osErr))
-    """
-    // load seccomp
-    if (_config->seccomp_rule_name != NULL) {
-        if (strcmp("c_cpp", _config->seccomp_rule_name) == 0) {
-            if (c_cpp_seccomp_rules(_config) != SUCCESS) {
-                CHILD_ERROR_EXIT(LOAD_SECCOMP_FAILED);
-            }
-        }
-        else if (strcmp("general", _config->seccomp_rule_name) == 0) {
-            if (general_seccomp_rules(_config) != SUCCESS ) {
-                CHILD_ERROR_EXIT(LOAD_SECCOMP_FAILED);
-            }
-        }
-        // other rules
-        else {
-            // rule does not exist
-            CHILD_ERROR_EXIT(LOAD_SECCOMP_FAILED);
-        }
-    }
-    """
     os.execve(command[0], command, config.env)
     error('Execve failed')

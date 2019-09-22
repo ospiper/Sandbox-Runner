@@ -13,7 +13,7 @@ def load_seccomp_rule(config, command):
         rule = config.seccomp_rule
         try:
             f = None
-            print('Loading seccomp rule:', config.seccomp_rule)
+            # print('Loading seccomp rule:', config.seccomp_rule)
             if rule == 'general':
                 f = SyscallFilter(defaction=ALLOW)
                 forbidden_syscalls = [
@@ -25,10 +25,11 @@ def load_seccomp_rule(config, command):
                 # f.add_rule(KILL, 'read', Arg(0, NE, sys.stdin.fileno()))
                 # f.add_rule(KILL, 'write', Arg(0, NE, sys.stdout.fileno()))
                 # f.add_rule(KILL, 'write', Arg(0, NE, sys.stderr.fileno()))
-                f.add_rule(KILL, 'open', Arg(1, MASKED_EQ, os.O_WRONLY, os.O_WRONLY))
-                f.add_rule(KILL, 'open', Arg(1, MASKED_EQ, os.O_RDWR, os.O_RDWR))
-                f.add_rule(KILL, 'openat', Arg(2, MASKED_EQ, os.O_WRONLY, os.O_WRONLY))
-                f.add_rule(KILL, 'openat', Arg(2, MASKED_EQ, os.O_RDWR, os.O_RDWR))
+                if not config.file_io:
+                    f.add_rule(KILL, 'open', Arg(1, MASKED_EQ, os.O_WRONLY, os.O_WRONLY))
+                    f.add_rule(KILL, 'open', Arg(1, MASKED_EQ, os.O_RDWR, os.O_RDWR))
+                    f.add_rule(KILL, 'openat', Arg(2, MASKED_EQ, os.O_WRONLY, os.O_WRONLY))
+                    f.add_rule(KILL, 'openat', Arg(2, MASKED_EQ, os.O_RDWR, os.O_RDWR))
                 # f.add_rule(KILL, "execve", Arg(1, NE, id(command)))
             if rule == 'c/c++':
                 f = SyscallFilter(defaction=KILL)
@@ -40,6 +41,11 @@ def load_seccomp_rule(config, command):
                 f.add_rule(ALLOW, 'sigaltstack')
                 f.add_rule(ALLOW, 'rt_sigaction')
                 f.add_rule(ALLOW, 'exit_group')
+                if not config.file_io:
+                    f.add_rule(KILL, 'open', Arg(1, MASKED_EQ, os.O_WRONLY | os.O_WRONLY, 0))
+                    f.add_rule(KILL, 'open', Arg(1, MASKED_EQ, os.O_RDWR | os.O_RDWR, 0))
+                    f.add_rule(KILL, 'openat', Arg(2, MASKED_EQ, os.O_WRONLY | os.O_WRONLY, 0))
+                    f.add_rule(KILL, 'openat', Arg(2, MASKED_EQ, os.O_RDWR | os.O_RDWR, 0))
                 allowed_syscalls = [
                     'mmap', 'mprotect', 'munmap', 'uname', 'arch_prctl', 'brk', 'access', 'close',
                     'readlink', 'sysinfo', 'writev', 'lseek', 'clock_gettime'
