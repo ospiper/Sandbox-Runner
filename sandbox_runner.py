@@ -21,9 +21,10 @@ def main(argv=()):
     command = argv[delimiter + 1:]
     try:
         opts, args = getopt.getopt(argv[:delimiter],
-                                   'hVcfi:o:l:e:v:u:g:s:',
+                                   'hdVcfi:o:l:e:v:u:g:s:',
                                    ['help',
                                     'version',
+                                    'debug',
                                     'max-cpu-time=',
                                     'max-real-time=',
                                     'max-memory=',
@@ -61,10 +62,6 @@ def main(argv=()):
         logger.error(str(err))
         sys.exit(999)
     # print(json.dumps(config.to_dict(), indent=2))
-    if config.log_file is not None:
-        logging.basicConfig(filename=config.log_file, level=logging.DEBUG)
-    else:
-        logging.basicConfig(level=logging.DEBUG)
     logging.info(version())
     run(config, command)
 

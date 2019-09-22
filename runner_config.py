@@ -1,4 +1,5 @@
 import os
+import logging
 from runner_errors import ArgumentError
 UNLIMITED = -1
 
@@ -104,8 +105,11 @@ class RunnerConfig:
     @staticmethod
     def build(opts=()):
         ret = RunnerConfig()
+        log_level = logging.INFO
         for opt, arg in opts:
-            if opt == '--max-cpu-time':
+            if opt in ('--debug', '-d'):
+                log_level = logging.DEBUG
+            elif opt == '--max-cpu-time':
                 ret.max_cpu_time = parse_time(opt, arg)
             elif opt == '--max-real-time':
                 ret.max_real_time = parse_time(opt, arg)
@@ -133,7 +137,7 @@ class RunnerConfig:
                 env = arg.split('=')
                 if len(arg) != 2:
                     raise ArgumentError('Environment variables must be like {Key}={Value}')
-                ret.env[arg[0]] = arg[1]
+                ret.env[env[0]] = env[1]
             elif opt in ('--uid', '-u'):
                 ret.uid = parse_int(opt, arg)
             elif opt in ('--gid', '-g'):
@@ -142,6 +146,10 @@ class RunnerConfig:
                 ret.seccomp_rule = arg
             else:
                 raise ArgumentError('Unexpected option: %s' % opt)
+        if ret.log_file is not None:
+            logging.basicConfig(filename=ret.log_file, level=log_level)
+        else:
+            logging.basicConfig(level=log_level)
         if ret.input_file is not None:
             if not os.path.exists(ret.input_file):
                 raise ArgumentError('Input file %s does not exist' % ret.input_file)

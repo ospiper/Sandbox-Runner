@@ -73,7 +73,7 @@ def run(config, command):
             logger.error('Fork failed')
             logger.error(str(err))
             ret.error = FORK_FAILED
-    logger.debug(ret.to_dict().__str__())
+    logger.info(ret.to_dict().__str__())
     print(json.dumps(ret.to_dict()))
     sys.exit(0)
 
