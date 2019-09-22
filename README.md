@@ -11,6 +11,16 @@ Install python3 bindings
 - `python3 setup.py build`
 - `cd build`
 - copy compiled `.so` file to `/path/to/Sandbox-Runner`
+- Path will be like this:
+```text
+-Sandbox-Runner
+|-...
+|-seccomp_loader.py
+|-seccomp.cpython-37m-x86_64-linux.gnu.so
+|-...
+
+# Compiled .so filename depends on your python version and architecture, do not rename it.
+```
 
 ## Usage
 ```bash
