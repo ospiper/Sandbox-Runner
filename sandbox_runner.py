@@ -1,14 +1,10 @@
-import os, sys, getopt
-import json
+import sys
+import getopt
 import logging
 
-from print_error import error
-from runner_errors import *
-from runner_config import RunnerConfig, UNLIMITED
+from runner_errors import RunnerException, ArgumentError
+from runner_config import RunnerConfig
 from runner import run
-
-
-logging.basicConfig(level=logging.DEBUG)
 
 
 def version():
@@ -21,7 +17,6 @@ def usage():
 
 def main(argv=()):
     logger = logging.getLogger(__name__)
-    logger.info(version())
     delimiter = argv.index('--')
     command = argv[delimiter + 1:]
     try:
@@ -49,24 +44,28 @@ def main(argv=()):
         logger.error(str(err))
         sys.exit(2)
     try:
-        if len(opts) == 0:
-            raise ArgumentError()
-        if opts[0][0] in ('-h', '--help'):
-            print(version())
-            usage()
-            sys.exit(0)
-        if opts[0][0] in ('-v', '-V', '--version'):
-            print(version())
-            sys.exit(0)
+        if len(opts) > 0:
+            if opts[0][0] in ('-h', '--help'):
+                print(version())
+                usage()
+                sys.exit(0)
+            if opts[0][0] in ('-v', '-V', '--version'):
+                print(version())
+                sys.exit(0)
     except RunnerException as err:
         logger.error(str(err))
-        sys.exit(2)
+        sys.exit(6)
     try:
         config = RunnerConfig.build(opts)
     except ArgumentError as err:
         logger.error(str(err))
         sys.exit(999)
     # print(json.dumps(config.to_dict(), indent=2))
+    if config.log_file is not None:
+        logging.basicConfig(filename=config.log_file, level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.DEBUG)
+    logging.info(version())
     run(config, command)
 
 
