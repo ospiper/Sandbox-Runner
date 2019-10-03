@@ -7,7 +7,7 @@ UNLIMITED = -1
 def parse_int(opt, s):
     try:
         return int(s)
-    except ValueError as err:
+    except ValueError:
         raise ArgumentError('%s: input "%s" is not a number' % (opt, s))
 
 

@@ -1,17 +1,21 @@
 # Sandbox Runner
 
 ## Requirements
+
 - Linux 2.6.23+
 - libseccomp-dev
+- Python 3.6+
 - libseccomp bindings for Python3 (Refer to [libseccomp](https://github.com/seccomp/libseccomp/blob/master/src/python/))
 
-Install python3 bindings
+### Install python3 bindings
+
 - `configure` and `make` libseccomp from official tarball (do not `make install`)
 - `cd src/python`
 - `python3 setup.py build`
 - `cd build`
 - copy compiled `.so` file to `/path/to/Sandbox-Runner`
 - Path will be like this:
+
 ```text
 -Sandbox-Runner
 |-...
@@ -23,6 +27,7 @@ Install python3 bindings
 ```
 
 ## Usage
+
 ```bash
 python3 sandbox_runner.py [args] -- commands
 # For Example
@@ -41,6 +46,7 @@ python3 sandbox_runner.py \
     -- \
     /usr/bin/python3 /path/to/script
 ```
+
 - **Caution: `command` must be absolute path**
 
 |Arg (--arg)|Abbr (-a)|Required|Type|Desc|
