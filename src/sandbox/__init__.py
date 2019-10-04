@@ -1,7 +1,7 @@
 import subprocess
 import json
-from runner_errors import ArgumentError
-from runner_config import UNLIMITED
+from .runner_errors import ArgumentError
+from .runner_config import UNLIMITED
 
 
 def run(command=(),

@@ -2,7 +2,7 @@ import os
 import signal
 import time
 import threading
-from print_error import error
+from .print_error import error
 
 
 def kill(pid):
@@ -26,7 +26,7 @@ class Timer(threading.Thread):
             while not self.stop_event.is_set() and time.time() < self._expect_end:
                 time.sleep(0.001)
             # time.sleep(self.timeout / 1000)
-        except OSError as err:
+        except OSError:
             error('Timer failed')
         finally:
             if time.time() > self._expect_end:

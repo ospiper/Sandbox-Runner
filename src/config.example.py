@@ -1,0 +1,3 @@
+TEST_CASE_DIR = '/test_cases'
+JUDGER_WORKSPACE = '/judger'
+RABBITMQ_BROKER_URL = ''

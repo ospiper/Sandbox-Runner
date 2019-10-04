@@ -3,7 +3,7 @@ from seccomp import *
 import errno
 import os
 
-from runner_config import RunnerConfig
+from .runner_config import RunnerConfig
 
 
 def load_seccomp_rule(config, command):
