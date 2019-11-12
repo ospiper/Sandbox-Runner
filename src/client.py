@@ -213,7 +213,7 @@ def run_users(config: ClientConfig, users: dict, root: str):
         results[user] = result
     print('Cleaning up...')
     requests.post(BASE_URL + '/clean_up', data={'problem_id': problem_id})
-    print(json.dumps(results, indent=2))
+    # print(json.dumps(results, indent=2))
     return results
 
 
