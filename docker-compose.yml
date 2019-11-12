@@ -1,8 +1,19 @@
 version: '3'
 services:
+  test_case_daemon:
+    container_name: test_case_daemon
+    image: tiangolo/uwsgi-nginx-flask:python3.7
+    restart: always
+    ports:
+      - 8090:80
+    volumes:
+      - ./src/test_case_daemon.py:/app/main.py
+      - ./src/config.py:/app/config.py
+      - /home/llap/test_cases:/test_case:rw
+
   judger:
     container_name: judger
-    build: .
+    image: judger
     read_only: true
     restart: always
     cap_drop:
@@ -15,8 +26,9 @@ services:
     tmpfs:
       - /tmp
     volumes:
-      - /test_case:/test_case:ro
-      - /log:/log
+      - /home/llap/test_cases:/test_case:ro
+      - /home/llap/log:/log
+      - /home/llap/run:/run
     ports:
       - 9191:9191
     

@@ -2,7 +2,7 @@ import os
 import signal
 import time
 import threading
-from .print_error import error
+from print_error import error
 
 
 def kill(pid):

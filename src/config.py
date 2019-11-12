@@ -1,2 +1,4 @@
-TEST_CASE_DIR = r'D:\ntoj\test_case'
-JUDGER_WORKSPACE = r'D:\ntoj\run'
+TEST_CASE_DIR = '/test_case'
+JUDGER_WORKSPACE = '/run'
+RABBITMQ_BROKER_URL = ''
+BASE_URL = 'http://127.0.0.1:8090'

@@ -1,0 +1,26 @@
+from enum import IntEnum
+
+
+class ResultCode(IntEnum):
+    ACCEPTED = 0
+    WRONG_ANSWER = -1
+    COMPILE_ERROR = -2
+    CPU_TIME_LIMIT_EXCEEDED = 1
+    REAL_TIME_LIMIT_EXCEEDED = 2
+    MEMORY_LIMIT_EXCEEDED = 3
+    RUNTIME_ERROR = 4
+    SYSTEM_ERROR = 5
+
+
+class ErrorCode(IntEnum):
+    SUCCESS = 0
+    INVALID_CONFIG = -1
+    FORK_FAILED = -2
+    PTHREAD_FAILED = -3
+    WAIT_FAILED = -4
+    ROOT_REQUIRED = -5
+    LOAD_SECCOMP_FAILED = -6
+    SETRLIMIT_FAILED = -7
+    DUP2_FAILED = -8
+    SETUID_FAILED = -9
+    EXECVE_FAILED = -10

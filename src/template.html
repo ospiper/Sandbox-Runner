@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Report</title>
+    <style type="text/css">
+        pre {
+            font-family: 'Menlo', 'Source Code Pro', 'Consolas', monospace;
+        }
+        .success {
+            background: green;
+            color: white;
+            padding: 0 0.5em;
+        }
+        .fail {
+            background: red;
+            color: white;
+            padding: 0 0.5em;
+        }
+        .ignored {
+            background: black;
+            color: white;
+            padding: 0 0.5em;
+        }
+    </style>
+</head>
+<body>
+<h1>User {{user_id}}</h1>
+
+<h2>Compile: <span class="{{compile_result}}">{{compile_result}}</span></h2>
+<pre>
+{{compile_error}}
+</pre>
+
+<h2>Run: <span class="{{run_result}}">{{run_result}}</span></h2>
+<h3>Score: {{score}}</h3>
+<h3>Details</h3>
+<table border="1" cellpadding="5" cellspacing="0">
+<thead>
+    <tr>
+        <th>Sub Task</th>
+        <th>Type</th>
+        <th>Score</th>
+        <th>Case #</th>
+        <th>cpu_time</th>
+        <th>real_time</th>
+        <th>memory</th>
+        <th>signal</th>
+        <th>exit_code</th>
+        <th>error</th>
+        <th>result</th>
+        <th>output</th>
+        <th>stderr</th>
+    </tr>
+</thead>
+<tbody>
+{{foreach case | sub_task_id | type | score | case_id | cpu_time | real_time | memory | signal | exit_code | error | result | output | stderr}}
+</tbody>
+</table>
+</body>
+</html>

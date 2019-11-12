@@ -6,19 +6,3 @@ class JudgerException(Exception):
 
 class JudgerError(JudgerException):
     pass
-
-
-class CompileError(JudgerException):
-    pass
-
-
-class TokenVerificationFailed(JudgerException):
-    pass
-
-
-class JudgeClientError(JudgerException):
-    pass
-
-
-class JudgeServiceError(JudgerException):
-    pass

@@ -2,9 +2,9 @@ import sys
 import getopt
 import logging
 
-from .runner_errors import RunnerException, ArgumentError
-from .runner_config import RunnerConfig
-from .runner import run
+from runner_errors import RunnerException, ArgumentError
+from runner_config import RunnerConfig
+from runner import run
 
 
 def version():

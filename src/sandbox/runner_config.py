@@ -1,6 +1,6 @@
 import os
 import logging
-from .runner_errors import ArgumentError
+from runner_errors import ArgumentError
 UNLIMITED = -1
 
 
@@ -135,7 +135,7 @@ class RunnerConfig:
                 ret.file_io = True
             elif opt in ('--env', '-v'):
                 env = arg.split('=')
-                if len(arg) != 2:
+                if len(env) != 2:
                     raise ArgumentError('Environment variables must be like {Key}={Value}')
                 ret.env[env[0]] = env[1]
             elif opt in ('--uid', '-u'):

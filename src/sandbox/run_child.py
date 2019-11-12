@@ -1,4 +1,3 @@
-from libseccomp import *
 import os
 import sys
 import math
@@ -6,7 +5,6 @@ import resource
 import logging
 
 from runner_config import *
-from print_error import error
 from seccomp_loader import *
 
 
@@ -43,9 +41,6 @@ def run_child(config, command):
         logger.error(str(err))
 
     # Handle input file
-    input_fd = None
-    output_fd = None
-    err_fd = None
     try:
         if config.input_file is not None:
             input_fd = os.open(config.input_file, os.O_RDONLY)

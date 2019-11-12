@@ -1,7 +1,8 @@
 import subprocess
 import json
+import os
+
 from .runner_errors import ArgumentError
-from .runner_config import UNLIMITED
 
 
 def run(command=(),
@@ -20,7 +21,7 @@ def run(command=(),
         env=None,
         uid=None,
         gid=None,
-        seccomp_rule=None):
+        seccomp_rule=None) -> dict:
     if command is None or not isinstance(command, list) or len(command) < 1:
         raise ArgumentError('Command must be a list() and must not be empty')
     args = []
@@ -57,10 +58,14 @@ def run(command=(),
         args += ['--gid', gid]
     if seccomp_rule is not None:
         args += ['--seccomp-rule', seccomp_rule]
-    sandbox_runner_args = ['/usr/bin/python3', 'sandbox_runner.py'] + args + ['--'] + command
-    print(sandbox_runner_args)
+    sandbox_runner_path = os.path.join(os.getcwd(), 'sandbox', 'sandbox_runner.py')
+    sandbox_runner_args = ['/usr/bin/python3', sandbox_runner_path] + \
+                          [str(a) for a in args] + ['--'] + \
+                          [str(c) for c in command]
+    # print('\n'.join(sandbox_runner_args))
     process = subprocess.Popen(sandbox_runner_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = process.communicate()
     if err:
-        raise ValueError(str(err))
+        # raise ValueError(str(err))
+        print('Err', err)
     return json.loads(out.decode())
