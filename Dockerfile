@@ -10,7 +10,8 @@ RUN apt-get install -y --fix-missing build-essential software-properties-common
 RUN apt-get install -y wget git
 RUN apt-get install -y python3 python3-pip
 RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple cython
-RUN wget -c -O libseccomp.tar.gz https://github.com/seccomp/libseccomp/releases/download/v${VERSION_RELEASE}/libseccomp-${VERSION_RELEASE}.tar.gz
+# RUN wget -c -O libseccomp.tar.gz https://github.com/seccomp/libseccomp/releases/download/v${VERSION_RELEASE}/libseccomp-${VERSION_RELEASE}.tar.gz
+COPY libseccomp-2.4.1.tar.gz libseccomp.tar.gz
 RUN tar zxf libseccomp.tar.gz
 WORKDIR /tmp/libseccomp-${VERSION_RELEASE}
 RUN ./configure
