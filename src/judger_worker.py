@@ -38,6 +38,8 @@ def judge(task_id: str = None,
           config: dict = None):
     if task_id is None or problem_id is None:
         return
+    
+    print('Judging task %s' % task_id)
 
     # Assign main task id
     runner_id = str(uuid.uuid4())

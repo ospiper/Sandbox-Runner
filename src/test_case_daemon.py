@@ -45,6 +45,7 @@ def upload_file():
         file.save(zip_filename)
         unzip(zip_filename, case_path)
         os.remove(zip_filename)
+        print('Problem %s created' % problem_id)
         return problem_id
 
 
@@ -52,6 +53,7 @@ def upload_file():
 def clean_up():
     problem_id = request.form['problem_id']
     if problem_id:
+        print('Removing problem %s' % problem_id)
         case_path = os.path.join(app.config['TEST_CASE_DIR'], problem_id)
         print(case_path)
         if os.path.exists(case_path):

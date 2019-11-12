@@ -109,7 +109,7 @@ def load_test_cases(root: str):
         for f in files:
             if not os.path.isfile(f):
                 continue
-            name = int(str(f.split('/')[-1]).split('.')[0])
+            name = int(str(f.split(os.sep)[-1]).split('.')[0])
             ext = f.split('.')[-1]
             if ext == 'in':
                 in_files.append(name)
@@ -208,7 +208,8 @@ def run_users(config: ClientConfig, users: dict, root: str):
         print('Judging', user)
     results = dict()
     for user in user_list:
-        result = messages[user].get_result(block=True)
+        print('Retrieving results of ' + user + '...')
+        result = messages[user].get_result(block=True, timeout=60*1000)
         results[user] = result
     print('Cleaning up...')
     requests.post(BASE_URL + '/clean_up', data={'problem_id': problem_id})
@@ -249,7 +250,7 @@ if __name__ == '__main__':
             run_result = 'ignored'
             score = 0
 
-        with open(os.path.join(os.sep.join(os.path.realpath(__file__).split('/')[:-1]), 'template.html'), 'r') as t_in:
+        with open(os.path.join(os.sep.join(os.path.realpath(__file__).split(os.sep)[:-1]), 'template.html'), 'r') as t_in:
             template = t_in.read()
         template = template.replace('{{compile_result}}', compile_result) \
             .replace('{{compile_error}}', compile_error) \
@@ -260,7 +261,7 @@ if __name__ == '__main__':
         case_match = re.search(reg, template, re.M | re.I)
         if case_match:
             rep = case_match.group(0)
-            print(rep)
+            # print(rep)
             run_template = ''
             if output_run:
                 fields = [s.strip() for s in case_match.group(1).split('|')]
