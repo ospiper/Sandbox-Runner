@@ -9,7 +9,7 @@ services:
     volumes:
       - ./src/test_case_daemon.py:/app/main.py
       - ./src/config.py:/app/config.py
-      - /home/llap/test_cases:/test_case:rw
+      - ./test_case:/test_case:rw
 
   judger:
     container_name: judger
@@ -26,9 +26,9 @@ services:
     tmpfs:
       - /tmp
     volumes:
-      - /home/llap/test_cases:/test_case:ro
-      - /home/llap/log:/log
-      - /home/llap/run:/run
+      - ./test_case:/test_case:ro
+      - ./log:/log
+      - ./run:/run
     ports:
       - 9191:9191
     
