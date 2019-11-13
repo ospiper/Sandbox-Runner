@@ -6,7 +6,7 @@ ENV ARCH=x86_64
 COPY sources.list /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y apt-utils
-RUN apt-get install -y --fix-missing build-essential software-properties-common
+RUN apt-get install -y build-essential software-properties-common
 RUN apt-get install -y wget git
 RUN apt-get install -y python3 python3-pip
 RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple cython
